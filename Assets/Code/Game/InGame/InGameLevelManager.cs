@@ -10,22 +10,11 @@ public class InGameLevelManager : BaseGameObject {
 
     InGameCreateObjManager inGameCreateObjManager;
 
-    public Rect gameRect;
-
     float addStepDis = 0;
 
     public void Init(){
         inGameCreateObjManager = new InGameCreateObjManager();
         inGameCreateObjManager.Init();
-
-        Vector3 screenLeftDown = new Vector3(0, 0, 0);
-        Vector3 screenRightTop = new Vector3(Screen.width, Screen.height, 0);
-
-        Vector3 gameLeftDown = GameCommon.ScreenPositionToWorld(InGameManager.GetInstance().gamecamera, screenLeftDown);
-        Vector3 gameRightTop = GameCommon.ScreenPositionToWorld(InGameManager.GetInstance().gamecamera, screenRightTop);
-
-        gameRect = new Rect(gameLeftDown, gameRightTop - gameLeftDown);
-
     }
 
     public void Update(){
@@ -56,6 +45,8 @@ public class InGameLevelManager : BaseGameObject {
             objList.AddRange(addList);
             addList.Clear();
         }
+
+        InGameManager.GetInstance().gamecamera.transform.position += new Vector3(0,Time.deltaTime,0);
 
     }
 

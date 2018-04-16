@@ -78,6 +78,7 @@ public static class GameConst  {
     public const string USERDATANAME_MODEL_MAXSCORES = "model_maxscores_";
     public const string USERDATANAME_MODEL_LASTSCORES = "model_lastscores_";
 
+    public const float JUMP_FORCE = 3f;
 
     public static GameModel[] gameModels = {
         new GameModel(0,"NORMAL","ToTarget_Normal_Leaderboard"),
@@ -96,15 +97,33 @@ public static class GameConst  {
     public const float STEP_MAX_SIZE = 2.5f;
 
 	
-	public static string GetLevelDataFilePath(string filename){
-		if (!Directory.Exists(Application.persistentDataPath + "/LevelData"))
-		{
-			Directory.CreateDirectory(Application.persistentDataPath + "/LevelData");//创建文件夹
+    public static string GetLevelDataFilePath(string filename)
+    {
+        if (!Directory.Exists(Application.streamingAssetsPath + "/LevelData"))
+        {
+            Directory.CreateDirectory(Application.streamingAssetsPath + "/LevelData");//创建文件夹
 
-		}
-		return Application.persistentDataPath + "/LevelData/" + filename;
-	}
+        }
+        return Application.streamingAssetsPath + "/LevelData/" + filename;
+    }
+    public static string GetLevelDataFilePath2(string tablename)
+    {
+        string src = "";
 
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            src = "jar:file://" + Application.dataPath + "!/assets/LevelData/" + tablename;
+        }
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            src = "file://" + Application.dataPath + "/Raw/LevelData/" + tablename;
+        }
+        else
+        {
+            src = "file://" + Application.streamingAssetsPath + "/LevelData/" + tablename;
+        }
+        return src;
+    }
 	public static string GetExcelFilePath(string filename){
 		return Application.dataPath+"/ExcelTools/xlsx/"+filename;
 	}

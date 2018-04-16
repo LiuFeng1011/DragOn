@@ -23,10 +23,15 @@ public class InGameStep : InGameBaseObj {
             transform.localScale += baseScale * Time.deltaTime * 2;
         }
 
+        transform.position = new Vector3(transform.position.x, 
+                                         transform.position.y - transform.localScale.x*transform.localScale.x * Time.deltaTime,
+                                         transform.position.z);
+
 
         if(Vector3.Distance( transform.position,InGameManager.GetInstance().role.transform.position) <
            (transform.localScale.x + InGameManager.GetInstance().role.transform.localScale.x) * 0.45){
             SetDie();
+            InGameManager.GetInstance().role.AddForce(new Vector3(0, GameConst.JUMP_FORCE,0));
         }
     }
 

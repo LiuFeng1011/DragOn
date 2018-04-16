@@ -49,7 +49,7 @@ public class InGameRole : InGameBaseObj {
         }
 
         //----屏幕边缘检测----
-        Rect gamerect = InGameManager.GetInstance().inGameLevelManager.gameRect;
+        Rect gamerect = InGameManager.GetInstance().GetGameRect();
         float x = moveForce.x;
         float y = moveForce.y;
         if(transform.position.x < gamerect.x){
@@ -62,13 +62,14 @@ public class InGameRole : InGameBaseObj {
 
         if (transform.position.y < gamerect.y )
         {
-            y *= -1;
-            transform.position = new Vector3(transform.position.x, gamerect.y, transform.position.z);
-        }else if(transform.position.y > gamerect.y + gamerect.height){
-            y *= -1;
-            transform.position = new Vector3(transform.position.x, gamerect.y + gamerect.height, transform.position.z);
+            Die();
+            return;
         }
-
+        //else if(transform.position.y > gamerect.y + gamerect.height){
+        //    y = -Mathf.Abs(y);
+        //    transform.position = new Vector3(transform.position.x, gamerect.y + gamerect.height, transform.position.z);
+        //}
+        y -= Time.deltaTime*0.6f;
         moveForce = new Vector3(x, y, 0);
 
         //----旋转缩放----
@@ -79,7 +80,13 @@ public class InGameRole : InGameBaseObj {
 
         float scale = Mathf.Min(Vector3.Distance(Vector3.zero, moveForce) * 5f, 1f) * 0.3f;
         iconObj.transform.localScale = iconScale + new Vector3(-iconScale.y * scale, iconScale.y * scale, 0);
-	}
+
+
+        Vector3 vec = (transform.position - InGameManager.GetInstance().gamecamera.transform.position) * 0.1f;
+        InGameManager.GetInstance().gamecamera.transform.position += new Vector3(vec.x, Mathf.Max(vec.y,0), 0);
+                         
+    
+    }
 
     public void AddForce(Vector3 addforce){
         moveForce = addforce * 0.3f;
@@ -111,9 +118,9 @@ public class InGameRole : InGameBaseObj {
             case EventID.EVENT_TOUCH_MOVE:
                 EventTouch moveeve = (EventTouch)resp;
                 Vector3 pos = GameCommon.ScreenPositionToWorld(InGameManager.GetInstance().gamecamera, moveeve.pos);
-                Vector3 dis = pos - transform.position;
-                moveForce += dis * 0.0025f;
-
+                Vector3 dis = (pos - transform.position)* 0.002f;
+                //moveForce += dis ;
+                moveForce = new Vector3(moveForce.x + dis.x, moveForce.y, 0);
                 break;
 
         }

@@ -7,7 +7,7 @@ public class InGameCameraEffect : MonoBehaviour {
 
     public Material m;
 
-    public float _Camber = 1.05f, _Radius = 1.65f;
+    public float _Camber = 0.75f, _Radius = 3.15f;
   
     Camera mainCamera;  
   
@@ -17,11 +17,11 @@ public class InGameCameraEffect : MonoBehaviour {
 
         m.SetFloat("_Camber", _Camber);  
         m.SetFloat("_Radius", _Radius);  
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
 
 	}
 
