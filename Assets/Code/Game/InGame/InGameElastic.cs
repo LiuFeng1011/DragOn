@@ -29,14 +29,15 @@ public class InGameElastic : InGameBaseObj {
                           
             InGameManager.GetInstance().role.AddForce(dis);
 
-            SetDie();
+            //SetDie();
         }
     }
 
     private void Update()
     {
         if(IsDie() && transform.localScale.x > 0){
-            transform.localScale = transform.localScale - new Vector3(1, 1, 1) * Time.deltaTime*2;
+            float scale = Mathf.Max(transform.localScale.x - Time.deltaTime * 2, 0);
+            transform.localScale = new Vector3(scale, scale, 1);
         }
     }
 

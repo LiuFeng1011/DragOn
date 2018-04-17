@@ -6,7 +6,6 @@ public class InGameStoryMapManager : BaseGameObject{
     MapData md;
 
     List<MSBaseObject> objList = new List<MSBaseObject>();
-    List<InGameBaseObj> delList = new List<InGameBaseObj>();
 
     int addindex = 0;
     int delindex = 0;
@@ -36,31 +35,35 @@ public class InGameStoryMapManager : BaseGameObject{
                 objList.Add(obj);
             }
         }
-
-
     }
 	// Update is called once per frame
     public void Update () {
 
         Rect gamerect = InGameManager.GetInstance().GetGameRect();
-        for (int i = 0; i < objList.Count; i++)
-        {
-            InGameBaseObj obj = (InGameBaseObj)objList[i];
-            obj.ObjUpdate();
 
-            if (obj.IsDie())
-            {
-                delList.Add(obj);
-            }
+        while(addindex < objList.Count && objList[addindex].transform.position.y +1< gamerect.y + gamerect.height){
+            InGameManager.GetInstance().inGameLevelManager.AddObj((InGameBaseObj)objList[addindex]);
+            addindex++;
         }
 
-        for (int i = 0; i < delList.Count; i++)
-        {
-            InGameBaseObj obj = delList[i];
-            objList.Remove(obj);
-            obj.Die();
-        }
-        delList.Clear();
+        //for (int i = 0; i < objList.Count; i++)
+        //{
+        //    InGameBaseObj obj = (InGameBaseObj)objList[i];
+        //    obj.ObjUpdate();
+
+        //    if (obj.IsDie())
+        //    {
+        //        delList.Add(obj);
+        //    }
+        //}
+
+        //for (int i = 0; i < delList.Count; i++)
+        //{
+        //    InGameBaseObj obj = delList[i];
+        //    objList.Remove(obj);
+        //    obj.Die();
+        //}
+        //delList.Clear();
 
         //InGameManager.GetInstance().gamecamera.transform.position += new Vector3(0, Time.deltaTime, 0);
 	}

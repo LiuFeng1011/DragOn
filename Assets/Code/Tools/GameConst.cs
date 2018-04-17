@@ -72,7 +72,7 @@ public struct GameModel{
 public static class GameConst  {
 	
 	public const string userDataFileName = "userdata";
-	public const string CONF_FILE_NAME = ".msconfig";
+    public const string CONF_FILE_NAME = ".bytes";
 
     public const string USERDATANAME_MODEL = "model";
     public const string USERDATANAME_MODEL_MAXSCORES = "model_maxscores_";
@@ -143,12 +143,12 @@ public static class GameConst  {
 		return src;
 	}
 	public static string GetConfigPath(){
-		return "Assets/StreamingAssets/Config/";
+		return "Config/";
 	}
 
 	public static string SaveConfigFilePath(string tablename)
-	{
-		return Application.streamingAssetsPath + "/Config/" + tablename;
+    {
+        return "Assets/Resources/Config/" + tablename;
 	}
 
 	public static string GetPersistentDataPath(string filename){

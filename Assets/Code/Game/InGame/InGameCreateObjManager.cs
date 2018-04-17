@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class InGameCreateObjManager : BaseGameObject {
 
-    float addTime = 0, addSawTime = 0f;
-    const float MAX_ADDTIME = 2.0f, MIN_ADDTIME = 0.5f, MAX_ADD_SAW_TIME = 6f;
+    float addHeight = 3, addSawTime = 0f;
+    const float MAX_ADDHEIGHT = 3.0f, MIN_ADDHEIGHT = 0.5f, MAX_ADD_SAW_TIME = 3f;
 
     public void Init()
     {
-        addTime = Random.Range(MIN_ADDTIME, MAX_ADDTIME);
         addSawTime = Random.Range(MAX_ADD_SAW_TIME, MAX_ADD_SAW_TIME*2);
     }
 
@@ -20,11 +19,12 @@ public class InGameCreateObjManager : BaseGameObject {
     }
 
     void AddStepUpdate(){
-        addTime -= Time.deltaTime;
-        if (addTime > 0) return;
-        addTime = Random.Range(MIN_ADDTIME, MAX_ADDTIME);
 
-        AddItem( "InGameStep");
+        Rect gamerect = InGameManager.GetInstance().GetGameRect();
+        while(addHeight < gamerect.y + gamerect.height){
+            AddItem("InGameStep",addHeight);
+            addHeight += Random.Range(MIN_ADDHEIGHT, MAX_ADDHEIGHT);
+        }
 
     }
 
@@ -33,10 +33,24 @@ public class InGameCreateObjManager : BaseGameObject {
         if (addSawTime > 0) return;
         addSawTime = Random.Range(MAX_ADD_SAW_TIME, MAX_ADD_SAW_TIME * 2);
 
-        AddItem(Random.Range(0f, 1f) > 0.5f ? "InGameSaw" : "InGameElastic");
+        Rect gamerect = InGameManager.GetInstance().GetGameRect();
+
+        float rand = Random.Range(0f, 1f);
+        string name;
+        if (rand < 0.3f){
+            name = "InGameSaw";
+        }else if (rand < 0.65f){
+            name = "InGameElastic";
+        }else{
+            name = "InGameItemSuperSpeed";
+        }
+        name = "InGameItemMagnet";
+
+        AddItem(name, gamerect.y + gamerect.height + 1);
+
     }
 
-    void AddItem(string id){
+    void AddItem(string id, float height){
 
         InGameBaseObj item = InGameManager.GetInstance().inGameLevelManager.AddObj(id);
 
@@ -46,7 +60,7 @@ public class InGameCreateObjManager : BaseGameObject {
         Rect gamerect = InGameManager.GetInstance().GetGameRect();
         //add item
         item.transform.position = new Vector3(gamerect.x + Random.Range(0, gamerect.width - 2) + 1,
-                                              gamerect.y + gamerect.height + randScale / 2);
+                                              height);
 
         item.Init();
     }

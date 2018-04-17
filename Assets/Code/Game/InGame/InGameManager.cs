@@ -13,6 +13,8 @@ public class InGameManager : MonoBehaviour {
     public InGameUIManager inGameUIManager;
     public InGameBgColor inGameBgColor;
 
+    public GameEffectManager gameEffectManager;
+
     public RapidBlurEffectManager rapidBlurEffectManager;
 
     public Camera gamecamera;
@@ -35,7 +37,7 @@ public class InGameManager : MonoBehaviour {
         return instance;
     }
 
-    private void Awake()
+    private void Start()
     {
         instance = this;
         gamecamera = Camera.main;
@@ -43,7 +45,7 @@ public class InGameManager : MonoBehaviour {
         rapidBlurEffectManager = gamecamera.gameObject.AddComponent<RapidBlurEffectManager>();
 
 
-        Vector3 screenLeftDown = new Vector3(0, 0, 0);
+        Vector3 screenLeftDown = new Vector3(0,0, 0);
         Vector3 screenRightTop = new Vector3(Screen.width, Screen.height, 0);
 
         Vector3 gameLeftDown = GameCommon.ScreenPositionToWorld(gamecamera, screenLeftDown);
@@ -53,7 +55,10 @@ public class InGameManager : MonoBehaviour {
 
         gameState = enGameState.ready;
 
-        StartCoroutine(ReadConfigFile("111"));
+        gamecamera.transform.position = new Vector3(0, 5, -1);
+
+       // StartCoroutine(ReadConfigFile("111"));
+        InitGame();
     }
 
     // Use this for initialization
@@ -65,13 +70,15 @@ public class InGameManager : MonoBehaviour {
         roleObj = Instantiate(roleObj);
         role = roleObj.GetComponent<InGameRole>();
 
+        gameEffectManager = new GameEffectManager();
+
         inGameBgColor = new InGameBgColor();
         inGameBgColor.Init();
         //
-        //inGameLevelManager = new InGameLevelManager();
-        //inGameLevelManager.Init();
-        inGameStoryMapManager = new InGameStoryMapManager();
-        inGameStoryMapManager.Start(md);
+        inGameLevelManager = new InGameLevelManager();
+        inGameLevelManager.Init();
+        //inGameStoryMapManager = new InGameStoryMapManager();
+        //inGameStoryMapManager.Start(md);
 
         inGameUIManager = new InGameUIManager();
         inGameUIManager.Init();
@@ -111,6 +118,7 @@ public class InGameManager : MonoBehaviour {
         if (inGameUIManager != null) inGameUIManager.Destroy();
         if (modelManager != null) modelManager.Destroy();
         if (inGameBgColor != null) inGameBgColor.Destroy();
+        if (gameEffectManager != null) gameEffectManager.Destroy();
 
     }
 

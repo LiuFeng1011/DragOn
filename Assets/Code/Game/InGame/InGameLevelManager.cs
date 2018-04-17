@@ -19,7 +19,7 @@ public class InGameLevelManager : BaseGameObject {
 
     public void Update(){
 
-        inGameCreateObjManager.Update();
+        if(inGameCreateObjManager != null)inGameCreateObjManager.Update();
 
         for (int i = 0; i < objList.Count; i++)
         {
@@ -53,11 +53,14 @@ public class InGameLevelManager : BaseGameObject {
     public InGameBaseObj AddObj(string id){
 
         InGameBaseObj objscript = MSBaseObject.CreateById(id) as InGameBaseObj;
-        objList.Add(objscript);
+        addList.Add(objscript);
         return objscript;
     }
-
+    public void AddObj(InGameBaseObj obj)
+    {
+        addList.Add(obj);
+    }
     public void Destroy(){
-        inGameCreateObjManager.Destroy();
+        if (inGameCreateObjManager != null)inGameCreateObjManager.Destroy();
     }
 }

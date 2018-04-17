@@ -29,7 +29,7 @@ public class ConfigManager  {
     public static void LoadData(){
         Debuger.Log("===========启动配置表管理器===========");
         //confMapObjectManager.Load();
-        //confEffectManager.Load();
+        confEffectManager.Load();
         Debuger.Log("----------配置表管理器启动成功-----------");
 
     }

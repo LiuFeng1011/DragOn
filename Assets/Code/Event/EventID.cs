@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum EventID{
+public enum EventID
+{
     EVENT_ENTRYGAME = 10001,//登录游戏
 
     //*************************系统消息******************************
@@ -17,5 +18,7 @@ public enum EventID{
     EVENT_TOUCH_MOVE = 0x17003,//移动
     EVENT_TOUCH_SWEEP = 0x17004,//划动
     //*******************************************************
+
+    EVENT_CREATE_EFFECT = 0x21001,
 }
 

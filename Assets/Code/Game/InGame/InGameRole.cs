@@ -12,6 +12,8 @@ public class InGameRole : InGameBaseObj {
 
     GameObject iconObj;
 
+    public BuffManager buffManager;
+
     private void Awake()
     {
         validTouchDistance = 200;
@@ -19,6 +21,9 @@ public class InGameRole : InGameBaseObj {
         EventManager.Register(this,
                        EventID.EVENT_TOUCH_DOWN,
                               EventID.EVENT_TOUCH_MOVE);
+
+        buffManager = new BuffManager();
+        buffManager.Init();
 
         moveForce = Vector3.zero;
         baseScale = transform.localScale;
@@ -40,12 +45,25 @@ public class InGameRole : InGameBaseObj {
 	public void RoleUpdate () {
         if (!gameObject.activeSelf) return;
 
+        buffManager.Update();
+
         updateTime += Time.deltaTime;
 
         while (updateTime > updateInterval){
             updateTime -= updateInterval;
-            moveForce *= 0.98f;
+            float forcey = buffManager.GetProperty(BaseBuff.BuffProperty.speed);
+            if (forcey == 0)
+            {
+                moveForce = new Vector3(moveForce.x * 0.9f, moveForce.y * 0.98f);
+            }else{
+                moveForce = new Vector3(moveForce.x * 0.9f, moveForce.y);
+            }
+
             transform.position += moveForce;
+
+            //摄像机跟随
+            Vector3 vec = (transform.position - InGameManager.GetInstance().gamecamera.transform.position) * 0.5f;
+            InGameManager.GetInstance().gamecamera.transform.position += new Vector3(0, Mathf.Max(vec.y, 0), 0);    
         }
 
         //----屏幕边缘检测----
@@ -81,18 +99,23 @@ public class InGameRole : InGameBaseObj {
         float scale = Mathf.Min(Vector3.Distance(Vector3.zero, moveForce) * 5f, 1f) * 0.3f;
         iconObj.transform.localScale = iconScale + new Vector3(-iconScale.y * scale, iconScale.y * scale, 0);
 
-
-        Vector3 vec = (transform.position - InGameManager.GetInstance().gamecamera.transform.position) * 0.1f;
-        InGameManager.GetInstance().gamecamera.transform.position += new Vector3(vec.x, Mathf.Max(vec.y,0), 0);
-                         
     
     }
 
     public void AddForce(Vector3 addforce){
-        moveForce = addforce * 0.3f;
+        moveForce = addforce * 0.2f;
+    }
+    public void AddForceY(float y)
+    {
+        moveForce = new Vector3(moveForce.x,y,0);
     }
 
-    public void Die(){
+    public override void Die(){
+
+        if(buffManager.GetProperty(BaseBuff.BuffProperty.hurt) > 0){
+            return;
+        }
+
         AudioManager.Instance.Play("sound/die");
         // game over
         InGameManager.GetInstance().GameOver();
@@ -118,7 +141,7 @@ public class InGameRole : InGameBaseObj {
             case EventID.EVENT_TOUCH_MOVE:
                 EventTouch moveeve = (EventTouch)resp;
                 Vector3 pos = GameCommon.ScreenPositionToWorld(InGameManager.GetInstance().gamecamera, moveeve.pos);
-                Vector3 dis = (pos - transform.position)* 0.002f;
+                Vector3 dis = (pos - transform.position)* 0.01f;
                 //moveForce += dis ;
                 moveForce = new Vector3(moveForce.x + dis.x, moveForce.y, 0);
                 break;
@@ -129,10 +152,15 @@ public class InGameRole : InGameBaseObj {
 
     public void Revive(){
         gameObject.SetActive(true);
+
+        Rect gamerect = InGameManager.GetInstance().GetGameRect();
+        transform.position = new Vector3(0, gamerect.y + gamerect.height / 2, 0);
+        AddForce(new Vector3(0, GameConst.JUMP_FORCE,0));
     }
 
     private void OnDestroy()
     {
+        buffManager.Destroy();
         EventManager.Remove(this);
     }
 }
