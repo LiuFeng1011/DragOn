@@ -24,7 +24,7 @@ public class InGameStoryMapManager : BaseGameObject{
             //obj.gameObject.SetActive(false);
             for (int i = 0; i < objList.Count; i ++){
                 MSBaseObject _obj = objList[i];
-                if(obj.transform.position.x < _obj.transform.position.x){
+                if(obj.transform.position.y < _obj.transform.position.y){
                     objList.Insert(i,obj);
                     isadd = true;
                     break;
@@ -40,8 +40,7 @@ public class InGameStoryMapManager : BaseGameObject{
     public void Update () {
 
         Rect gamerect = InGameManager.GetInstance().GetGameRect();
-
-        while(addindex < objList.Count && objList[addindex].transform.position.y +1< gamerect.y + gamerect.height){
+        while(addindex < objList.Count && objList[addindex].transform.position.y - 1< gamerect.y + gamerect.height){
             InGameManager.GetInstance().inGameLevelManager.AddObj((InGameBaseObj)objList[addindex]);
             addindex++;
         }

@@ -9,7 +9,8 @@ public class BaseBuff : BaseGameObject
     {
         speed,
         invincible,
-        magent
+        magent,
+        scale
     }
 
     public enum BuffProperty{
@@ -17,10 +18,17 @@ public class BaseBuff : BaseGameObject
         hurt,
     }
 
-    float time, val,maxtime;
+    BuffType type;
+    protected float time, val,maxtime;
 
-    public virtual void Init(float time,float val)
+    public virtual void Init(BuffType type,float time,float val)
     {
+        this.type = type;
+        this.time = this.maxtime = time;
+        this.val = val;
+    }
+
+    public virtual void Reset(float time, float val){
         this.time = this.maxtime = time;
         this.val = val;
     }
@@ -44,4 +52,9 @@ public class BaseBuff : BaseGameObject
     public bool IsDie(){
         return isdie;
     }
+
+    public BuffType GetBuffType(){
+        return type;
+    }
+
 }

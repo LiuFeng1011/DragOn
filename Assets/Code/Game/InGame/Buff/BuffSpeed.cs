@@ -5,9 +5,9 @@ using UnityEngine;
 public class BuffSpeed : BaseBuff {
     //60010011
     GameObject effectobj;
-    public override void Init(float time, float val)
+    public override void Init(BuffType type,float time, float val)
     {
-        base.Init(time,val);
+        base.Init(type,time,val);
 
         effectobj = new GameObject("role speed effect");
         effectobj.transform.parent = InGameManager.GetInstance().role.transform;

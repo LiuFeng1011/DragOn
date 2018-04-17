@@ -9,7 +9,6 @@ public class InGameManager : MonoBehaviour {
 
     GameTouchController gameTouchController;
     public InGameLevelManager inGameLevelManager;
-    public InGameStoryMapManager inGameStoryMapManager;
     public InGameUIManager inGameUIManager;
     public InGameBgColor inGameBgColor;
 
@@ -57,8 +56,13 @@ public class InGameManager : MonoBehaviour {
 
         gamecamera.transform.position = new Vector3(0, 5, -1);
 
-       // StartCoroutine(ReadConfigFile("111"));
-        InitGame();
+        if(UserDataManager.selLevel == null){
+            InitGame();
+        }else{
+            StartCoroutine(ReadConfigFile(UserDataManager.selLevel.file_path));
+        }
+       // 
+
     }
 
     // Use this for initialization
@@ -77,8 +81,6 @@ public class InGameManager : MonoBehaviour {
         //
         inGameLevelManager = new InGameLevelManager();
         inGameLevelManager.Init();
-        //inGameStoryMapManager = new InGameStoryMapManager();
-        //inGameStoryMapManager.Start(md);
 
         inGameUIManager = new InGameUIManager();
         inGameUIManager.Init();
@@ -103,7 +105,6 @@ public class InGameManager : MonoBehaviour {
 
         if (gameTouchController != null) gameTouchController.Update();
         if (inGameLevelManager != null)inGameLevelManager.Update();
-        if (inGameStoryMapManager != null) inGameStoryMapManager.Update();
         if (modelManager != null) modelManager.Update();
         if (inGameBgColor != null) inGameBgColor.Update();
 
@@ -114,7 +115,6 @@ public class InGameManager : MonoBehaviour {
     {
         instance = null;
         if (inGameLevelManager != null) inGameLevelManager.Destroy();
-        if (inGameStoryMapManager != null) inGameStoryMapManager.OnDestroy();
         if (inGameUIManager != null) inGameUIManager.Destroy();
         if (modelManager != null) modelManager.Destroy();
         if (inGameBgColor != null) inGameBgColor.Destroy();

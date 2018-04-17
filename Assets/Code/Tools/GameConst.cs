@@ -81,9 +81,8 @@ public static class GameConst  {
     public const float JUMP_FORCE = 3f;
 
     public static GameModel[] gameModels = {
-        new GameModel(0,"NORMAL","ToTarget_Normal_Leaderboard"),
-        new GameModel(1,"SPEED","ToTarget_Speed_Leaderboard"),
-        new GameModel(2,"TIME","ToTarget_Time_Leaderboard"),
+        //new GameModel(0,"LEVEL","ToTarget_Normal_Leaderboard"),
+        //new GameModel(1,"INFINITY","ToTarget_Speed_Leaderboard"),
     };
 
 

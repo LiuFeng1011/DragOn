@@ -27,7 +27,7 @@ public class InGameElastic : InGameBaseObj {
             Vector3 dis = Vector3.Normalize(InGameManager.GetInstance().role.transform.position - transform.position);
             InGameManager.GetInstance().role.transform.position += dis * 0.1f;
                           
-            InGameManager.GetInstance().role.AddForce(dis);
+            InGameManager.GetInstance().role.AddForce(dis*3);
 
             //SetDie();
         }

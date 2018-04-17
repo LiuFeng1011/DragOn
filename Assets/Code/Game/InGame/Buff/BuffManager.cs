@@ -42,6 +42,13 @@ public class BuffManager : BaseGameObject {
 
     public void AddBuff(BaseBuff.BuffType type, float time, float val){
 
+        for (int i = 0; i < buffList.Count;i ++){
+            if(buffList[i].GetBuffType() == type){
+                buffList[i].Reset(time, val);
+                return;
+            }
+        }
+
         BaseBuff buff = null;
         switch(type){
             case BaseBuff.BuffType.speed:
@@ -53,11 +60,14 @@ public class BuffManager : BaseGameObject {
             case BaseBuff.BuffType.magent:
                 buff = new BuffMagnet();
                 break;
+            case BaseBuff.BuffType.scale:
+                buff = new BuffScale();
+                break;
             default:
                 Debug.LogError("no buff :"+ type);
                 break;
         }
-        buff.Init(time,val);
+        buff.Init(type,time,val);
         addList.Add(buff); 
     }
 

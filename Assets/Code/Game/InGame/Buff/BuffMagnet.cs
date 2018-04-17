@@ -6,9 +6,9 @@ public class BuffMagnet : BaseBuff {
     //60010012
     GameObject effectobj;
     const float maxMagnetDis = 5f, maxMagnetSpeed = 6f;
-    public override void Init(float time, float val)
+    public override void Init(BuffType type,float time, float val)
     {
-        base.Init(time, val);
+        base.Init(type,time, val);
 
         effectobj = new GameObject("Magnet effect");
         effectobj.transform.parent = InGameManager.GetInstance().role.transform;
@@ -24,6 +24,9 @@ public class BuffMagnet : BaseBuff {
         List<InGameBaseObj> objlist = InGameManager.GetInstance().inGameLevelManager.objList;
 
         for (int i = 0; i < objlist.Count;i  ++){
+            if("InGameStep" != objlist[i].itemid){
+                continue;
+            }
             Vector3 objpos = objlist[i].transform.position;
             Vector3 rolepos = InGameManager.GetInstance().role.transform.position;
             float dis = Vector3.Distance(objpos, rolepos);

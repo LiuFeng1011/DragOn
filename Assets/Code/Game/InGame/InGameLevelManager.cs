@@ -9,17 +9,26 @@ public class InGameLevelManager : BaseGameObject {
     public List<InGameBaseObj> delList = new List<InGameBaseObj>();
 
     InGameCreateObjManager inGameCreateObjManager;
+    InGameStoryMapManager inGameStoryMapManager;
 
     float addStepDis = 0;
 
     public void Init(){
-        inGameCreateObjManager = new InGameCreateObjManager();
-        inGameCreateObjManager.Init();
+        if(UserDataManager.selLevel == null){
+            inGameCreateObjManager = new InGameCreateObjManager();
+            inGameCreateObjManager.Init();
+        }else {
+
+            inGameStoryMapManager = new InGameStoryMapManager();
+            inGameStoryMapManager.Start(InGameManager.GetInstance().md);
+        }
+
     }
 
     public void Update(){
 
         if(inGameCreateObjManager != null)inGameCreateObjManager.Update();
+        if (inGameStoryMapManager != null) inGameStoryMapManager.Update();
 
         for (int i = 0; i < objList.Count; i++)
         {
@@ -42,6 +51,7 @@ public class InGameLevelManager : BaseGameObject {
 
         if (addList.Count > 0)
         {
+            Debug.Log(" add count : " + addList.Count);
             objList.AddRange(addList);
             addList.Clear();
         }
@@ -62,5 +72,6 @@ public class InGameLevelManager : BaseGameObject {
     }
     public void Destroy(){
         if (inGameCreateObjManager != null)inGameCreateObjManager.Destroy();
+        if (inGameStoryMapManager != null) inGameStoryMapManager.OnDestroy();
     }
 }

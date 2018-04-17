@@ -25,11 +25,13 @@ public class ConfigManager  {
 
     public static ConfMapObjectManager confMapObjectManager = new ConfMapObjectManager();
     public static ConfEffectManager confEffectManager = new ConfEffectManager();
+    public static StoryLevelManager storyLevelManager = new StoryLevelManager();
 
     public static void LoadData(){
         Debuger.Log("===========启动配置表管理器===========");
         //confMapObjectManager.Load();
         confEffectManager.Load();
+        storyLevelManager.Load();
         Debuger.Log("----------配置表管理器启动成功-----------");
 
     }

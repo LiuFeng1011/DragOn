@@ -7,6 +7,8 @@ using LitJson;
 
 public class UserDataManager : BaseSingleton<UserDataManager> {
 
+    public static story_level_conf selLevel = null;
+
 	private UserData userData = null;
 	private Dictionary<string, AHInt> itemList = new Dictionary<string, AHInt>();//道具列表
 

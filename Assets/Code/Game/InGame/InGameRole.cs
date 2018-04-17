@@ -14,6 +14,8 @@ public class InGameRole : InGameBaseObj {
 
     public BuffManager buffManager;
 
+    TrailRenderer trail;
+
     private void Awake()
     {
         validTouchDistance = 200;
@@ -28,7 +30,7 @@ public class InGameRole : InGameBaseObj {
         moveForce = Vector3.zero;
         baseScale = transform.localScale;
 
-        TrailRenderer trail = transform.GetComponent<TrailRenderer>();
+        trail = transform.GetComponent<TrailRenderer>();
         if(trail != null){
             trail.startWidth = baseScale.x * 0.3f;
             trail.endWidth = 0;
@@ -98,10 +100,14 @@ public class InGameRole : InGameBaseObj {
 
         float scale = Mathf.Min(Vector3.Distance(Vector3.zero, moveForce) * 5f, 1f) * 0.3f;
         iconObj.transform.localScale = iconScale + new Vector3(-iconScale.y * scale, iconScale.y * scale, 0);
-
-    
+ 
     }
+    public void SetScale(Vector3 scale){
+        transform.localScale = scale;
 
+        trail.startWidth = scale.x * 0.3f;
+        trail.endWidth = 0;
+    }
     public void AddForce(Vector3 addforce){
         moveForce = addforce * 0.2f;
     }
