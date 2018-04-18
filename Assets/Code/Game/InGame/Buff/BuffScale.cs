@@ -25,7 +25,7 @@ public class BuffScale : BaseBuff {
         }else{
             return;
         }
-        InGameManager.GetInstance().role.SetScale(scale + scale * rate) ;
+        InGameManager.GetInstance().role.SetScale(scale + scale * rate * 0.5f) ;
     }
 
     public override void Destory()

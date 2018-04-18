@@ -5,11 +5,13 @@ using UnityEngine;
 public class InGameElastic : InGameBaseObj {
 
     float time = 0f;
+    public float force = 3f;
     Vector3 baseScale;
     public override void Init()
     {
         base.Init();
         baseScale = transform.localScale;
+        Debug.Log(baseScale);
     }
 
     // Update is called once per frame
@@ -27,7 +29,7 @@ public class InGameElastic : InGameBaseObj {
             Vector3 dis = Vector3.Normalize(InGameManager.GetInstance().role.transform.position - transform.position);
             InGameManager.GetInstance().role.transform.position += dis * 0.1f;
                           
-            InGameManager.GetInstance().role.AddForce(dis*3);
+            InGameManager.GetInstance().role.AddForce(dis*force);
 
             //SetDie();
         }
@@ -50,5 +52,19 @@ public class InGameElastic : InGameBaseObj {
     void DestroyObj()
     {
         base.Die();
+    }
+
+    public override void Serialize(DataStream writer)
+    {
+        base.Serialize(writer);
+
+        writer.WriteSInt32((int)(force * 1000f));
+    }
+
+    public override void Deserialize(DataStream reader)
+    {
+        base.Deserialize(reader);
+
+        force = (float)reader.ReadSInt32() / 1000f;
     }
 }

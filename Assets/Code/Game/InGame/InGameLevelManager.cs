@@ -51,7 +51,6 @@ public class InGameLevelManager : BaseGameObject {
 
         if (addList.Count > 0)
         {
-            Debug.Log(" add count : " + addList.Count);
             objList.AddRange(addList);
             addList.Clear();
         }

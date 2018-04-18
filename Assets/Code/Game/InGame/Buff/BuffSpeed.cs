@@ -21,7 +21,7 @@ public class BuffSpeed : BaseBuff {
     public override float GetProperty(BuffProperty property)
     {
         if(property == BuffProperty.speed){
-            return GameConst.JUMP_FORCE * 0.4f;
+            return GameConst.JUMP_FORCE * val;
         }
         return 0;
     }
@@ -30,7 +30,7 @@ public class BuffSpeed : BaseBuff {
     {
         base.Update();
 
-        InGameManager.GetInstance().role.AddForceY(GameConst.JUMP_FORCE * 0.1f);
+        InGameManager.GetInstance().role.AddForceY(GameConst.JUMP_FORCE * val);
     }
 
     public override void Destory()

@@ -16,7 +16,6 @@ public class InGameSaw : InGameBaseObj {
         if (Vector3.Distance(transform.position, InGameManager.GetInstance().role.transform.position) <
            (transform.localScale.x + InGameManager.GetInstance().role.transform.localScale.x) * 0.35)
         {
-            SetDie();
             InGameManager.GetInstance().role.Die();
         }
     }

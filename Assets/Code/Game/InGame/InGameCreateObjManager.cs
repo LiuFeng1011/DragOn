@@ -5,7 +5,7 @@ using UnityEngine;
 public class InGameCreateObjManager : BaseGameObject {
 
     float addHeight = 3, addSawTime = 0f,addItemTime = 0f;
-    const float MAX_ADDHEIGHT = 3.0f, MIN_ADDHEIGHT = 0.5f;
+    const float MAX_ADDHEIGHT = 4.0f, MIN_ADDHEIGHT = 0.8f;
     const float MAX_ADD_SAW_TIME = 1f,MAX_ADD_ITEM_TIME = 5f;
 
     public void Init()

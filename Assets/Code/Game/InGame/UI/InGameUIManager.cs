@@ -6,6 +6,7 @@ public class InGameUIManager : BaseGameObject {
 
     ResultLayerManager  resultLayerManager;
     ReviveLayerManager  reviveLayerManager;
+    WinLayerManager winLayerManager;
     GamePadManager      gamePadManager;
 
     GameObject uiroot,addScoresLabelRes;
@@ -16,14 +17,17 @@ public class InGameUIManager : BaseGameObject {
         uiroot = GameObject.Find("UI Root");
         resultLayerManager  = uiroot.transform.Find("ResultLayer").GetComponent<ResultLayerManager>();
         reviveLayerManager  = uiroot.transform.Find("ReviveLayer").GetComponent<ReviveLayerManager>();
+        winLayerManager     = uiroot.transform.Find("WinLayer").GetComponent<WinLayerManager>();
         gamePadManager      = uiroot.transform.Find("GamePad").GetComponent<GamePadManager>();
 
         resultLayerManager.Init();
         reviveLayerManager.Init();
+        winLayerManager.Init();
         gamePadManager.Init();
 
         resultLayerManager.gameObject.SetActive(false);
         reviveLayerManager.gameObject.SetActive(false);
+        winLayerManager.gameObject.SetActive(false);
         gamePadManager.gameObject.SetActive(true);
 
         addScoresLabelRes = Resources.Load("Prefabs/UI/AddScoresLabel") as GameObject;
@@ -35,6 +39,7 @@ public class InGameUIManager : BaseGameObject {
 	public void Update () {
         resultLayerManager.ActionUpdate();
         reviveLayerManager.ActionUpdate();
+        winLayerManager.ActionUpdate();
         gamePadManager.ActionUpdate();
 	}
 
@@ -51,6 +56,11 @@ public class InGameUIManager : BaseGameObject {
 
     public void ShowReviveLayer(){
         reviveLayerManager.Show();
+        HideGamePad();
+    }
+
+    public void ShowWinLayer(){
+        winLayerManager.Show();
         HideGamePad();
     }
 

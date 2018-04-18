@@ -122,6 +122,16 @@ public class InGameManager : MonoBehaviour {
 
     }
 
+    public void GameWin(){
+        rapidBlurEffectManager.StartBlur();
+        Invoke("ShowWinLayer", 1.0f);
+    }
+
+    public void ShowWinLayer(){
+        gameState = enGameState.over;
+        inGameUIManager.ShowWinLayer();
+    }
+
     public void GameOver(){
         gameState = enGameState.over;
 

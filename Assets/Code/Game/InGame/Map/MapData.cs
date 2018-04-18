@@ -64,6 +64,7 @@ public class MapData {
 
             baseobj.Deserialize(datastream);
             baseobj.init();
+            baseobj.Init();
 
 
             if (dic.ContainsKey(baseobj.parent))

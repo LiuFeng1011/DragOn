@@ -98,7 +98,7 @@ public class InGameRole : InGameBaseObj {
         float angle = GameCommon.GetVectorAngle(new Vector3(0, 1, 0), dir);
         iconObj.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        float scale = Mathf.Min(Vector3.Distance(Vector3.zero, moveForce) * 5f, 1f) * 0.3f;
+        float scale = Mathf.Min(Vector3.Distance(Vector3.zero, moveForce) * 5f, 1f) * 0.17f;
         iconObj.transform.localScale = iconScale + new Vector3(-iconScale.y * scale, iconScale.y * scale, 0);
  
     }
